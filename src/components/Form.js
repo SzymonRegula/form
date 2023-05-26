@@ -5,6 +5,12 @@ import DragDropFiles from './DragDropFiles';
 
 function Form() {
   const isNotEmpty = (value) => value.trim() !== '';
+  const isNotWeekend = (value) => {
+    if (!value) return false;
+    const date = new Date(value);
+    const dayOfWeek = date.getDay();
+    return !(dayOfWeek === 6 || dayOfWeek === 0);
+  };
 
   const {
     value: fromValue,
@@ -32,9 +38,21 @@ function Form() {
 
   const planeRef = useRef();
 
+  const {
+    value: dateValue,
+    valueIsValid: dateValueIsValid,
+    inputHasError: inputDateHasError,
+    changeValueHandler: changeDateHandler,
+    touchInputHandler: touchDateInputHandler,
+    reset: resetDateInput,
+  } = useInput(isNotWeekend);
+  const dateClasses = inputDateHasError
+    ? 'form-control invalid'
+    : 'form-control';
+
   function addCargoHandler() {}
 
-  const formIsValid = fromValueIsValid && whereValueIsValid;
+  const formIsValid = fromValueIsValid && whereValueIsValid && dateValueIsValid;
 
   function formSubmitHandler(event) {
     event.preventDefault();
@@ -50,6 +68,7 @@ function Form() {
 
     resetFromInput();
     resetWhereInput();
+    resetDateInput();
   }
 
   return (
@@ -88,9 +107,18 @@ function Form() {
             <option value='Boeing 747'>Boeing 747</option>
           </select>
         </div>
-        <div className='form-control'>
+        <div className={dateClasses}>
           <label htmlFor='date'>Data transportu</label>
-          <input type='date' id='date'></input>
+          <input
+            type='date'
+            id='date'
+            onChange={changeDateHandler}
+            onBlur={touchDateInputHandler}
+            value={dateValue}
+          ></input>
+          {inputDateHasError && (
+            <p className='error-text'>Podaj datę od poniedziałku do piatku.</p>
+          )}
         </div>
 
         <div className='form-control'>
