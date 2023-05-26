@@ -1,17 +1,17 @@
-function CargoInputs() {
+function CargoGroup() {
   return (
-    <div className='cargo-inputs'>
-      <div className='form-field'>
+    <div className='cargo-form-group'>
+      <div className='form-control'>
         <label htmlFor='name'>Nazwa ładunku</label>
-        <input type='text' id='name' required></input>
+        <input type='text' id='name'></input>
       </div>
-      <div className='form-field'>
+      <div className='form-control'>
         <label htmlFor='weight'>Ciężar ładunku w kg</label>
-        <input type='number' id='weight' required></input>
+        <input type='number' id='weight'></input>
       </div>
-      <div className='form-field'>
+      <div className='form-control'>
         <label htmlFor='cargo'>Typ ładunku</label>
-        <select id='cargo' required>
+        <select id='cargo'>
           <option value='dangerous'>zwykły</option>
           <option value='normall'>niebezpieczny</option>
         </select>
@@ -20,4 +20,4 @@ function CargoInputs() {
   );
 }
 
-export default CargoInputs;
+export default CargoGroup;
