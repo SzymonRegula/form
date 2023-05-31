@@ -1,19 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-function isNotEmpty(value) {
-  return value.trim() !== '';
-}
-function isNotWeekend(value) {
-  if (!value) return false;
-  const date = new Date(value);
-  const dayOfWeek = date.getDay();
-  return !(dayOfWeek === 6 || dayOfWeek === 0);
-}
-function isGoodWeight(value, plane) {
-  if (plane === 'Airbus A380') return value > 0 && value <= 35000;
-  else if (plane === 'Boeing 747') return value > 0 && value <= 38000;
-}
-
 let id = 0;
 const initialCargo = (id) => ({
   id,
@@ -30,6 +16,20 @@ const initialState = {
   files: [],
   cargoes: [initialCargo(id)],
 };
+
+function isNotEmpty(value) {
+  return value.trim() !== '';
+}
+function isNotWeekend(value) {
+  if (!value) return false;
+  const date = new Date(value);
+  const dayOfWeek = date.getDay();
+  return !(dayOfWeek === 6 || dayOfWeek === 0);
+}
+function isGoodWeight(value, plane) {
+  if (plane === 'Airbus A380') return value > 0 && value <= 35000;
+  else if (plane === 'Boeing 747') return value > 0 && value <= 38000;
+}
 
 export const formSlice = createSlice({
   name: 'form',

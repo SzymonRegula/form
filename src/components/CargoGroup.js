@@ -53,7 +53,11 @@ function CargoGroup({ id }) {
           }
           onBlur={() => dispatch(touch(['cargoWeight', id]))}
         ></input>
-        {weightHasError && <p className='error-text'>Niedozwolona masa.</p>}
+        {weightHasError && (
+          <p className='error-text'>
+            Masa musi być dodatnia i niewiększa niż {maxWeight} kg.
+          </p>
+        )}
       </div>
       <div className='form-control'>
         <label htmlFor={'cargo' + id}>Typ ładunku</label>

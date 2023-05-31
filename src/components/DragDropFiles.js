@@ -8,20 +8,49 @@ function DragDropFiles() {
 
   const inputRef = useRef();
 
+  function areValidTypes(files) {
+    const allowedTypes = [
+      'image/jpeg',
+      'image/png',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/pdf',
+    ];
+
+    for (const file of files) {
+      if (!allowedTypes.includes(file.type)) {
+        alert('Nieprawidłowy typ pliku!\nDozwolone: jpg, png, doc, docx, pdf.');
+        return false;
+      }
+    }
+    return true;
+  }
+
   function dragOverHandler(event) {
     event.preventDefault();
   }
 
   function dropHandler(event) {
     event.preventDefault();
+    const newFiles = [...event.dataTransfer.files];
 
-    const newFiles = [...event.dataTransfer.files].map((file) => file.name);
-    dispatch(changeValue(['files', [...new Set(filesState.concat(newFiles))]]));
+    if (!areValidTypes(newFiles)) return;
+
+    const newFileNames = newFiles.map((file) => file.name);
+    dispatch(
+      changeValue(['files', [...new Set(filesState.concat(newFileNames))]])
+    );
   }
 
   function changeFilesHandler(event) {
-    const newFiles = [...event.target.files].map((file) => file.name);
-    dispatch(changeValue(['files', [...new Set(filesState.concat(newFiles))]]));
+    const newFiles = [...event.target.files];
+
+    if (!areValidTypes(newFiles)) return;
+
+    const newFileNames = newFiles.map((file) => file.name);
+    dispatch(
+      changeValue(['files', [...new Set(filesState.concat(newFileNames))]])
+    );
   }
 
   function removeFileHandler(fileName) {
