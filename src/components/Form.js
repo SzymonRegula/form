@@ -2,10 +2,12 @@ import DragDropFiles from './DragDropFiles';
 import CargoGroup from './CargoGroup';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCargo, changeValue, reset, touch } from '../redux/formSlice';
+import { useState } from 'react';
 
 function Form() {
   const form = useSelector((state) => state.form);
   const dispatch = useDispatch();
+  const [files, setFiles] = useState([]);
 
   const fromHasError = form.from.isTouched && !form.from.isValid;
   const whereHasError = form.where.isTouched && !form.where.isValid;
@@ -37,12 +39,16 @@ function Form() {
       where: form.where.value,
       plane: form.plane,
       date: form.date.value,
-      files: form.files,
+      files,
       cargoes,
     };
     console.log(formData);
 
     dispatch(reset());
+  }
+
+  function filesChangeHandler(files) {
+    setFiles(files);
   }
 
   return (
@@ -107,7 +113,7 @@ function Form() {
 
         <div className='form-control'>
           <label htmlFor='files'>Dokumenty przewozowe</label>
-          <DragDropFiles />
+          <DragDropFiles onChangeFiles={filesChangeHandler} />
         </div>
       </div>
 

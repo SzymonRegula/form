@@ -1,11 +1,7 @@
-import { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeValue } from '../redux/formSlice';
+import { useRef, useState } from 'react';
 
-function DragDropFiles() {
-  const dispatch = useDispatch();
-  const filesState = useSelector((state) => state.form.files);
-
+function DragDropFiles({ onChangeFiles }) {
+  const [files, setFiles] = useState([]);
   const inputRef = useRef();
 
   function areValidTypes(files) {
@@ -30,38 +26,39 @@ function DragDropFiles() {
     event.preventDefault();
   }
 
+  function addFiles(newFiles) {
+    if (!areValidTypes(newFiles)) return;
+
+    const updatedFiles = [...files];
+    for (const newFile of newFiles) {
+      if (!updatedFiles.some((file) => file.name === newFile.name)) {
+        updatedFiles.push(newFile);
+      }
+    }
+    setFiles(updatedFiles);
+    onChangeFiles(updatedFiles);
+  }
+
   function dropHandler(event) {
     event.preventDefault();
     const newFiles = [...event.dataTransfer.files];
-
-    if (!areValidTypes(newFiles)) return;
-
-    const newFileNames = newFiles.map((file) => file.name);
-    dispatch(
-      changeValue(['files', [...new Set(filesState.concat(newFileNames))]])
-    );
+    addFiles(newFiles);
   }
 
-  function changeFilesHandler(event) {
+  function addFilesHandler(event) {
     const newFiles = [...event.target.files];
-
-    if (!areValidTypes(newFiles)) return;
-
-    const newFileNames = newFiles.map((file) => file.name);
-    dispatch(
-      changeValue(['files', [...new Set(filesState.concat(newFileNames))]])
-    );
+    addFiles(newFiles);
   }
 
-  function removeFileHandler(fileName) {
-    dispatch(
-      changeValue(['files', filesState.filter((name) => name !== fileName)])
-    );
+  function removeFileHandler(file) {
+    const updatedFiles = [...files].filter((currFile) => currFile !== file);
+    setFiles(updatedFiles);
+    onChangeFiles(updatedFiles);
   }
 
   return (
     <div className='dropzone' onDragOver={dragOverHandler} onDrop={dropHandler}>
-      {filesState.length === 0 ? (
+      {files.length === 0 ? (
         <svg
           className='upload-svg'
           xmlns='http://www.w3.org/2000/svg'
@@ -73,10 +70,10 @@ function DragDropFiles() {
         </svg>
       ) : (
         <ul className='files-list'>
-          {filesState.map((name, index) => (
+          {files.map((file, index) => (
             <li key={index} className='files-row'>
               <svg
-                onClick={removeFileHandler.bind(null, name)}
+                onClick={removeFileHandler.bind(null, file)}
                 className='remove-svg'
                 clipRule='evenodd'
                 fillRule='evenodd'
@@ -88,7 +85,7 @@ function DragDropFiles() {
                 <path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' />
               </svg>
               <span name='file-name' className='file-name'>
-                {name}
+                {file.name}
               </span>
             </li>
           ))}
@@ -99,7 +96,7 @@ function DragDropFiles() {
         id='files'
         multiple
         accept='.jpg, .png, .doc, .docx, .pdf'
-        onChange={changeFilesHandler}
+        onChange={addFilesHandler}
         hidden
         ref={inputRef}
       />

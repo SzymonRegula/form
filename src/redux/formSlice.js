@@ -13,7 +13,6 @@ const initialState = {
   where: { value: '', isValid: false, isTouched: false },
   plane: 'Airbus A380',
   date: { value: '', isValid: false, isTouched: false },
-  files: [],
   cargoes: [initialCargo(id)],
 };
 
@@ -70,9 +69,6 @@ export const formSlice = createSlice({
           isNotWeekend(value)
             ? (state.date.isValid = true)
             : (state.date.isValid = false);
-          break;
-        case 'files':
-          state.files = value;
           break;
         case 'cargoName':
           cargo.name.value = value;
