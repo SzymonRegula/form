@@ -23,6 +23,10 @@ function Form() {
     form.date.isValid &&
     form.cargoes.every((cargo) => cargo.name.isValid && cargo.weight.isValid);
 
+  function filesChangeHandler(files) {
+    setFiles(files);
+  }
+
   function formSubmitHandler(event) {
     event.preventDefault();
 
@@ -44,11 +48,26 @@ function Form() {
     };
     console.log(formData);
 
-    dispatch(reset());
-  }
-
-  function filesChangeHandler(files) {
-    setFiles(files);
+    // poniższy fetch oczywiście będzie powodował błąd z powodu braku pliku 'send_form.php'
+    fetch('send_form.php', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        }
+        throw new Error(
+          '\nCoś poszło nie tak, transport nie został zatwierdzony'
+        );
+      })
+      .then((data) => {
+        console.log(data);
+        dispatch(reset());
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
   return (
@@ -134,7 +153,7 @@ function Form() {
       </button>
 
       <button className='confirm-btn' type='submit' disabled={!formIsValid}>
-        Zatwierdź tranport
+        Zatwierdź transport
       </button>
     </form>
   );
