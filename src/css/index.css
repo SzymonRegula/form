@@ -16,7 +16,7 @@ body {
 }
 
 .app {
-  margin: 3rem;
+  padding: 3rem;
 }
 
 button {
@@ -56,6 +56,7 @@ button:active {
 
 .horizontally {
   display: flex;
+  justify-content: space-between;
   gap: 3rem;
 }
 
@@ -63,6 +64,7 @@ button:active {
   width: 100%;
   flex-direction: column;
   display: flex;
+  align-items: flex-start;
 }
 
 .form-control input,
@@ -72,7 +74,7 @@ button:active {
   padding: 0.5rem;
   border-radius: 4px;
   border: 2px solid #ccc;
-  max-width: 100%;
+  width: 100%;
 }
 
 .form-control input:focus,
@@ -108,6 +110,7 @@ button:active {
 
 /* FILE UPLOAD */
 .dropzone {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -124,7 +127,8 @@ button:active {
 }
 
 .select-files-btn {
-  margin: 0.6rem;
+  display: block;
+  margin: 0.6rem auto;
 }
 
 .upload-svg {
@@ -133,26 +137,30 @@ button:active {
   height: 5rem;
 }
 
-.remove-svg {
-  flex: 0 0 2.4rem;
-  align-self: start;
-  fill: #b40e0e;
-  cursor: pointer;
-}
-
 .files-list {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
 }
 
+.file-name {
+  font-size: 80%;
+}
+
 .files-row {
   display: flex;
+  align-items: center;
   gap: 0.6rem;
 }
 
+.remove-svg {
+  width: 2.4rem;
+  fill: #b40e0e;
+  cursor: pointer;
+}
+
 .file-types {
-  font-size: 1.8rem;
+  font-size: 70%;
   color: #3f3f3f;
   margin-bottom: 1rem;
   text-align: center;
@@ -163,14 +171,9 @@ input[type='file'] {
 }
 
 /* CARGOES */
-
 .cargo-group {
   display: flex;
   flex-direction: column;
-}
-
-.cargo-group .horizontally {
-  margin-top: 2rem;
 }
 
 .cargo-group:not(:last-child)::after {
@@ -182,6 +185,16 @@ input[type='file'] {
   margin: 3rem 0;
 }
 
-.car .add-cargo-btn {
+.label-delete-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cargo-group .horizontally {
+  margin-top: 2rem;
+}
+
+.add-cargo-btn {
   align-self: flex-end;
 }

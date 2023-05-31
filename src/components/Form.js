@@ -2,10 +2,8 @@ import DragDropFiles from './DragDropFiles';
 import CargoGroup from './CargoGroup';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCargo, changeValue, reset, touch } from '../redux/formSlice';
-import { useState } from 'react';
 
 function Form() {
-  const [key, setKey] = useState(0);
   const form = useSelector((state) => state.form);
   const dispatch = useDispatch();
 
@@ -45,23 +43,17 @@ function Form() {
     console.log(formData);
 
     dispatch(reset());
-    setKey((prevKey) => prevKey + 1);
   }
 
   return (
-    <form
-      key={key}
-      className='form'
-      action=''
-      method='POST'
-      encType='multipart/form-data'
-    >
+    <form className='form' onSubmit={formSubmitHandler}>
       <div className='transport-group'>
         <div className={fromClasses}>
           <label htmlFor='from'>Transport z</label>
           <input
             type='text'
             id='from'
+            value={form.from.value}
             onChange={(e) => dispatch(changeValue(['from', e.target.value]))}
             onBlur={() => dispatch(touch(['from']))}
           ></input>
@@ -75,9 +67,9 @@ function Form() {
           <input
             type='text'
             id='where'
+            value={form.where.value}
             onChange={(e) => dispatch(changeValue(['where', e.target.value]))}
             onBlur={() => dispatch(touch(['where']))}
-            value={form.where.value}
           ></input>
           {whereHasError && (
             <p className='error-text'>Musisz podać miejsce destynacji.</p>
@@ -89,6 +81,7 @@ function Form() {
             <label htmlFor='plane'>Typ samolotu</label>
             <select
               id='plane'
+              value={form.plane}
               onChange={(e) => dispatch(changeValue(['plane', e.target.value]))}
             >
               <option value='Airbus A380'>Airbus A380</option>
@@ -100,6 +93,7 @@ function Form() {
             <input
               type='date'
               id='date'
+              value={form.date.value}
               onChange={(e) => dispatch(changeValue(['date', e.target.value]))}
               onBlur={() => dispatch(touch(['date']))}
             ></input>
@@ -117,26 +111,23 @@ function Form() {
         </div>
       </div>
 
-      <ul className='cargoes-list'>
-        {form.cargoes.map((cargo) => (
-          <CargoGroup key={cargo.id} id={cargo.id} />
-        ))}
-      </ul>
+      {form.cargoes.length > 0 && (
+        <ul className='cargoes-list'>
+          {form.cargoes.map((cargo) => (
+            <CargoGroup key={cargo.id} id={cargo.id} />
+          ))}
+        </ul>
+      )}
 
       <button
         className='add-cargo-btn'
         type='button'
         onClick={() => dispatch(addCargo())}
       >
-        Dodaj kolejny ładunek
+        Dodaj ładunek
       </button>
 
-      <button
-        className='confirm-btn'
-        type='submit'
-        disabled={!formIsValid}
-        onClick={formSubmitHandler}
-      >
+      <button className='confirm-btn' type='submit' disabled={!formIsValid}>
         Zatwierdź tranport
       </button>
     </form>

@@ -4,7 +4,7 @@ let id = 0;
 const initialCargo = (id) => ({
   id,
   name: { value: '', isValid: false, isTouched: false },
-  weight: { value: 0, isValid: false, isTouched: false },
+  weight: { value: '', isValid: false, isTouched: false },
   type: 'normall',
 });
 
@@ -37,7 +37,6 @@ export const formSlice = createSlice({
   reducers: {
     changeValue: (state, action) => {
       const [what, value, id] = action.payload;
-      console.log(what, value, id);
 
       let cargo;
       if (id !== undefined) {
@@ -92,7 +91,7 @@ export const formSlice = createSlice({
           cargo.type = value;
           break;
         default:
-          console.log('Wrong parameter!');
+          console.error('Wrong parameter!');
       }
     },
 
@@ -121,7 +120,7 @@ export const formSlice = createSlice({
           cargo.weight.isTouched = true;
           break;
         default:
-          console.log('Wrong parameter!');
+          console.error('Wrong parameter!');
       }
     },
 
@@ -129,10 +128,16 @@ export const formSlice = createSlice({
       state.cargoes = [...state.cargoes, initialCargo(++id)];
     },
 
+    removeCargo: (state, action) => {
+      const id = action.payload;
+      state.cargoes = state.cargoes.filter((cargo) => cargo.id !== id);
+    },
+
     reset: () => initialState,
   },
 });
 
-export const { changeValue, touch, addCargo, reset } = formSlice.actions;
+export const { changeValue, touch, addCargo, removeCargo, reset } =
+  formSlice.actions;
 
 export default formSlice.reducer;
