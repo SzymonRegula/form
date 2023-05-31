@@ -15,15 +15,18 @@ body {
   background-color: #3f3f3f;
 }
 
+.app {
+  margin: 3rem;
+}
+
 button {
-  font: inherit;
   background-color: #240370;
   color: white;
   border: 1px solid #240370;
   padding: 0.5rem 1.5rem;
   border-radius: 4px;
+  font-size: 100%;
   cursor: pointer;
-  outline: none;
   transition: all 0.3s;
 }
 
@@ -34,14 +37,15 @@ button:active {
 }
 
 .form {
-  font-size: 2rem;
+  font-size: 2.4rem;
   padding: 3rem;
-  margin: 5rem auto;
-  width: 60rem;
+  margin: 0 auto;
+  max-width: 80rem;
   background-color: #fff;
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  border-radius: 4px;
 }
 
 .transport-group {
@@ -50,28 +54,21 @@ button:active {
   gap: 2rem;
 }
 
-.cargo-group {
+.horizontally {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  gap: 3rem;
 }
 
 .form-control {
+  width: 100%;
   flex-direction: column;
   display: flex;
-}
-
-.form-control label {
-  align-self: flex-start;
-}
-
-.narrow-field {
-  width: 20rem;
 }
 
 .form-control input,
 .form-control select {
-  font: inherit;
+  height: 4rem;
+  font-size: 80%;
   padding: 0.5rem;
   border-radius: 4px;
   border: 2px solid #ccc;
@@ -97,23 +94,12 @@ button:active {
 
 .error-text {
   color: #b40e0e;
-  font-size: 60%;
-}
-
-input[type='file'] {
-  display: none;
-}
-
-.add-cargo-btn {
-  align-self: flex-end;
-  /* width: 20rem; */
+  font-size: 70%;
 }
 
 .confirm-btn {
-  /* align-self: center;
-  width: 20rem; */
+  height: 8rem;
 }
-
 .confirm-btn:disabled {
   background-color: #3f3f3f;
   border-color: #3f3f3f;
@@ -126,7 +112,6 @@ input[type='file'] {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: 18rem;
   padding: 0.5rem;
   border-radius: 4px;
   border: 2px solid #ccc;
@@ -139,12 +124,11 @@ input[type='file'] {
 }
 
 .select-files-btn {
-  /* width: 20rem; */
   margin: 0.6rem;
 }
 
 .upload-svg {
-  flex-grow: 1;
+  margin-top: 3rem;
   width: 5rem;
   height: 5rem;
 }
@@ -168,8 +152,36 @@ input[type='file'] {
 }
 
 .file-types {
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   color: #3f3f3f;
   margin-bottom: 1rem;
   text-align: center;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+/* CARGOES */
+
+.cargo-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.cargo-group .horizontally {
+  margin-top: 2rem;
+}
+
+.cargo-group:not(:last-child)::after {
+  content: '';
+  top: 0;
+  height: 3px;
+  width: 100%;
+  background-color: #3f3f3f;
+  margin: 3rem 0;
+}
+
+.car .add-cargo-btn {
+  align-self: flex-end;
 }

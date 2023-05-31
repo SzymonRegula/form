@@ -25,7 +25,7 @@ function CargoGroup({ id }) {
   else if (plane === 'Boeing 747') maxWeight = 38000;
 
   return (
-    <div className='cargo-group'>
+    <li className='cargo-group'>
       <div className={cargoNameClasses}>
         <label htmlFor={'name' + id}>Nazwa ładunku</label>
         <input
@@ -40,33 +40,40 @@ function CargoGroup({ id }) {
           <p className='error-text'>Musisz podać nazwę ładunku.</p>
         )}
       </div>
-      <div className={cargoWeightClasses}>
-        <label htmlFor={'weight' + id}>Ciężar ładunku w kg</label>
-        <input
-          className='narrow-field'
-          type='number'
-          id={'weight' + id}
-          min={0}
-          max={maxWeight}
-          onChange={(e) =>
-            dispatch(changeValue(['cargoWeight', e.target.value, id]))
-          }
-          onBlur={() => dispatch(touch(['cargoWeight', id]))}
-        ></input>
-        {weightHasError && (
-          <p className='error-text'>
-            Masa musi być dodatnia i niewiększa niż {maxWeight} kg.
-          </p>
-        )}
+
+      <div className='horizontally'>
+        <div className={cargoWeightClasses}>
+          <label htmlFor={'weight' + id}>Ciężar ładunku w kg</label>
+          <input
+            type='number'
+            id={'weight' + id}
+            min={0}
+            max={maxWeight}
+            onChange={(e) =>
+              dispatch(changeValue(['cargoWeight', e.target.value, id]))
+            }
+            onBlur={() => dispatch(touch(['cargoWeight', id]))}
+          ></input>
+          {weightHasError && (
+            <p className='error-text'>
+              Masa musi być dodatnia i niewiększa niż {maxWeight} kg.
+            </p>
+          )}
+        </div>
+        <div className='form-control'>
+          <label htmlFor={'cargo' + id}>Typ ładunku</label>
+          <select
+            id={'cargo' + id}
+            onChange={(e) =>
+              dispatch(changeValue(['cargoType', e.target.value, id]))
+            }
+          >
+            <option value='normall'>zwykły</option>
+            <option value='dangerous'>niebezpieczny</option>
+          </select>
+        </div>
       </div>
-      <div className='form-control'>
-        <label htmlFor={'cargo' + id}>Typ ładunku</label>
-        <select className='narrow-field' id={'cargo' + id}>
-          <option value='dangerous'>zwykły</option>
-          <option value='normall'>niebezpieczny</option>
-        </select>
-      </div>
-    </div>
+    </li>
   );
 }
 

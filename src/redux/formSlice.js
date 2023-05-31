@@ -37,6 +37,7 @@ export const formSlice = createSlice({
   reducers: {
     changeValue: (state, action) => {
       const [what, value, id] = action.payload;
+      console.log(what, value, id);
 
       let cargo;
       if (id !== undefined) {
@@ -63,7 +64,6 @@ export const formSlice = createSlice({
               ? (cargo.weight.isValid = true)
               : (cargo.weight.isValid = false)
           );
-
           break;
         case 'date':
           state.date.value = value;

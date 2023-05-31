@@ -84,30 +84,31 @@ function Form() {
           )}
         </div>
 
-        <div className='form-control'>
-          <label htmlFor='plane'>Typ samolotu</label>
-          <select
-            className='narrow-field'
-            id='plane'
-            onChange={(e) => dispatch(changeValue(['plane', e.target.value]))}
-          >
-            <option value='Airbus A380'>Airbus A380</option>
-            <option value='Boeing 747'>Boeing 747</option>
-          </select>
-        </div>
-
-        <div className={dateClasses}>
-          <label htmlFor='date'>Data transportu</label>
-          <input
-            className='narrow-field'
-            type='date'
-            id='date'
-            onChange={(e) => dispatch(changeValue(['date', e.target.value]))}
-            onBlur={() => dispatch(touch(['date']))}
-          ></input>
-          {dateHasError && (
-            <p className='error-text'>Podaj datę od poniedziałku do piatku.</p>
-          )}
+        <div className='horizontally'>
+          <div className='form-control'>
+            <label htmlFor='plane'>Typ samolotu</label>
+            <select
+              id='plane'
+              onChange={(e) => dispatch(changeValue(['plane', e.target.value]))}
+            >
+              <option value='Airbus A380'>Airbus A380</option>
+              <option value='Boeing 747'>Boeing 747</option>
+            </select>
+          </div>
+          <div className={dateClasses}>
+            <label htmlFor='date'>Data transportu</label>
+            <input
+              type='date'
+              id='date'
+              onChange={(e) => dispatch(changeValue(['date', e.target.value]))}
+              onBlur={() => dispatch(touch(['date']))}
+            ></input>
+            {dateHasError && (
+              <p className='error-text'>
+                Podaj datę od poniedziałku do piatku.
+              </p>
+            )}
+          </div>
         </div>
 
         <div className='form-control'>
@@ -116,9 +117,11 @@ function Form() {
         </div>
       </div>
 
-      {form.cargoes.map((cargo) => (
-        <CargoGroup key={cargo.id} id={cargo.id} />
-      ))}
+      <ul className='cargoes-list'>
+        {form.cargoes.map((cargo) => (
+          <CargoGroup key={cargo.id} id={cargo.id} />
+        ))}
+      </ul>
 
       <button
         className='add-cargo-btn'
